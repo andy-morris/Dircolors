@@ -1,0 +1,20 @@
+name:          Dircolors
+version:       0.1.0.0
+license:       PublicDomain
+license-file:  LICENSE
+author:        Andy Morris
+maintainer:    andy@adradh.org.uk
+category:      System
+build-type:    Simple
+cabal-version: >= 1.10
+
+executable mkdircolors
+  main-is: Main.hs
+  build-depends:
+    base == 4.5.*,
+    syb == 0.3.*,
+    parsec == 3.1.*,
+    wl-pprint-extras == 3.*
+  default-language: Haskell2010
+  default-extensions:
+    DeriveDataTypeable, OverloadedStrings
