@@ -1,0 +1,22 @@
+
+glob ::= part+
+
+part ::= branch | single
+
+branch ::= charclass | brace
+
+charclass ::=  "[" (single - ("]" | "-"))+ "]"
+
+brace ::= "{" braceinner "}"
+
+braceinner
+  ::= braceglob "," braceinner
+   |  braceglob
+
+braceglob ::= glob - ("," | "}")
+
+single ::= lit | esc
+
+lit ::= any - ("{" | "[" | "#" | ":" | " " | "\")
+
+esc ::= "\" any
