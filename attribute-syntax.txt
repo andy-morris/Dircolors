@@ -1,0 +1,15 @@
+
+# all case-insensitive
+
+attributes
+  ::= attribute "," attributes
+   |  attribute
+
+attribute ::= style | color
+
+style ::= "bold" | "underline" | "blink" | "reverse" | "conceal"
+
+color ::= ("fg" | "bg") "=" colorname
+
+colorname ::= "black" | "red" | "green" | "yellow" | "blue"
+           |  "magenta" | "cyan" | "white"
