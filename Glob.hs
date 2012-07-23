@@ -1,5 +1,7 @@
 module Glob (Glob(..), glob, pglob, generate) where
 
+import P
+
 import Data.String
 import Text.Parsec
 import Text.PrettyPrint.Free hiding (char)
@@ -39,8 +41,6 @@ instance Pretty Glob where
 single :: Glob -> Bool
 single (Lit _) = True
 single _       = False
-
-type P = Parsec String ()
 
 pglob :: P Glob
 pglob = pglob' [] <* eof
