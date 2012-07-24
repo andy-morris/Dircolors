@@ -1,0 +1,79 @@
+# This file is mostly made of what my `dircolors -p` spat out.
+#
+# After the ########## line is my own additions which you can remove if you
+# want.
+
+term Eterm ansi color-xterm con132x25 con132x30 con132x43 con132x60
+     con80x25 con80x28 con80x30 con80x43 con80x50 con80x60 cons25 console
+     cygwin dtterm eterm-color gnome gnome-256color jfbterm konsole kterm
+     linux linux-c mach-color mlterm putty rxvt rxvt-256color rxvt-cygwin
+     rxvt-cygwin-native rxvt-unicode rxvt-unicode-256color rxvt-unicode256
+     screen screen-256color screen-256color-bce screen-bce screen-w
+     screen\.Eterm screen\.rxvt screen\.linux terminator vt100 xterm
+     xterm-16color xterm-256color xterm-88color xterm-color xterm-debian.
+
+RESET : reset.
+
+DIR            : fg = blue, bold.
+LINK           : fg = cyan, bold.
+ORPHAN         : bg = red, fg = black, bold.
+FIFO SOCK DOOR : fg = yellow, bg = black.
+BLK CHR        : fg = yellow, bg = black, underline, bold.
+
+SETUID : bg = red.
+SETGID : bg = yellow.
+
+CAPABILITY            : bg = red, fg = white.
+STICKY_OTHER_WRITABLE : bg = black, fg = green.
+OTHER_WRITABLE        : bg = green, fg = blue.
+STICKY                : bg = blue, fg = white.
+
+EXEC: fg = green, bold.
+
+# Archives
+.tar .arj .t{[agblx],}z .lz{h,ma}    : fg = red, bold.
+.zip .[zZ] .[dglrx7]z .bz{2,} .tbz2  : fg = red, bold.
+.deb .rpm .[ejrsw]ar .ace .zoo .cpio : fg = red, bold.
+.a                                   : fg = red, bold.
+
+# Images and videos
+.jp{e,}g .gif .[pm]ng .bmp .p[bgp]m       : fg = magenta, bold.
+.x[bp]m .tga .tif{f,} .svg{z,} .pcx       : fg = magenta, bold.
+.mov .mp{e,}g .m[2k]v .m4[av] .webm       : fg = magenta, bold.
+.og[mxv] .mp4{v,} .vob .qt .nuv .wmv .asf : fg = magenta, bold.
+.rm{a,vb,} .flc .avi .fl[iv] .[gd]l       : fg = magenta, bold.
+.xcf .xwd .yuv .cgm .emf .axv .anx        : fg = magenta, bold.
+
+# Audio
+.aac .au .flac .mid{i,} .mka .mp[3c] .ogg : fg = cyan, bold.
+.ra .wav .axa .oga .spx .xspf             : fg = cyan, bold.
+
+####################
+
+# Build system files
+*CMakeLists.txt .cabal : fg = yellow.
+*Makefile .mk .make    : fg = yellow.
+
+# Source files
+.c{pp,xx,++} .h{pp,xx,++} .s : fg = yellow, bold.
+.cs .fs{i,} .java .scala     : fg = yellow, bold.
+.{l,}hs .y .x .hsc           : fg = yellow, bold.
+.{s,}ml .mli                 : fg = yellow, bold.
+.{l,}agda .v                 : fg = yellow, bold.
+.py .rb .php .pl             : fg = yellow, bold.
+.vim                         : fg = yellow, bold.
+.js .coffee                  : fg = yellow, bold.
+.go                          : fg = yellow, bold.
+.lisp .scm                   : fg = yellow, bold.
+
+# Meta
+*{README,LICENSE,AUTHORS} : fg = yellow, underline.
+
+# Documents
+.txt .tex .html .xhtml .xml     : underline.
+.md .mkd .markdown .pandoc .pdc : underline.
+
+# Temp files
+.o .hi .agdai .pyc                 : fg = black, bold.
+.aux .bbl .blg .brf .dvi .fls .idx : fg = black, bold.
+.ilg .ind .lof .log .out .toc      : fg = black, bold.
