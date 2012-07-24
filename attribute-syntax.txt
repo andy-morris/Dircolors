@@ -1,8 +1,11 @@
 
 # all case-insensitive
 
-attributes
-  ::= attribute "," attributes
+# ident for style alias
+attributes ::= attribute-list | "reset" | ident
+
+attribute-list
+  ::= attribute "," attribute-list
    |  attribute
 
 attribute ::= style | color

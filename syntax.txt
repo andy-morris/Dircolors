@@ -3,6 +3,9 @@
 #
 # comments are signified by "#"
 
-rule ::= globs ":" attributes "."
+rule
+  ::= globs ":" attributes "."
+   |  "term" ident+ "."
+   |  "style" ident ":" attributes "."
 
 globs ::= glob globs | glob
