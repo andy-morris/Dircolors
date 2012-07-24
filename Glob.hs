@@ -42,7 +42,7 @@ pglobs = many1 pglob
 pglob :: P Glob
 pglob = lexeme "glob" $ pglob' []
 
-pglob', pclass, popt, plit :: [Char] -> P Glob
+pglob', pclass, popt, plit :: String -> P Glob
 pglob' n = fmap Cat . many1 $ choice [pclass n, popt n, plit n]
 
 pclass n = Branch . map Lit . concat <$>
@@ -62,7 +62,7 @@ plit n = Lit <$> pNot n <?> "normal character"
 pesc :: P Char
 pesc = char '\\' *> anyChar <?> "backslash escape"
 
-pNot :: [Char] -> P Char
+pNot :: String -> P Char
 pNot n = choice [pesc, noneOf $ n ++ "#:[{ \\"]
 
 

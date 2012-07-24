@@ -30,7 +30,7 @@ lexeme :: String -> P a -> P a
 lexeme str = (<?> str) . between pwhite pwhite . try
 
 symbol :: String -> P ()
-symbol str = (void . lexeme (quoted str) $ string str)
+symbol str = void . lexeme (quoted str) $ string str
 
 word :: String -> a -> P a
 word str x = lexeme (quoted str) $ do

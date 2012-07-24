@@ -61,7 +61,7 @@ toConf xs = intercalate ";" $ map toConf' xs where
   toConf' Blink     = "05"
   toConf' Reverse   = "07"
   toConf' Conceal   = "08"
-  toConf' (FG x)    = "3" ++ colToConf x
-  toConf' (BG x)    = "4" ++ colToConf x
+  toConf' (FG x)    = '3' : colToConf x
+  toConf' (BG x)    = '4' : colToConf x
 
   colToConf = show . fromEnum
