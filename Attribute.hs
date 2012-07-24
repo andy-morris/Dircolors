@@ -9,7 +9,7 @@ import Data.Char
 import Data.List
 import Text.Parsec
 import Control.Applicative hiding ((<|>))
-import Text.PrettyPrint.Free
+import Text.PrettyPrint.Free hiding (equals, comma)
 
 data Attribute = Bold | Underline | Blink | Reverse | Conceal
                | FG Color | BG Color
@@ -28,7 +28,7 @@ instance Pretty Attribute where
 
 pattributes :: P [Attribute]
 pattributes =
-      (pattribute `sepBy1` symbol "," <?> "attribute list")
+      (pattribute `sepBy1` comma <?> "attribute list")
   <|> (word "reset" [] <?> "\"reset\"")
 
 pattribute :: P Attribute
@@ -43,10 +43,7 @@ pattribute = choice
   <?> "attribute"
 
 pcolorA :: String -> (Color -> Attribute) -> P Attribute
-pcolorA str c = do
-    word str ()
-    symbol "="
-    c <$> pcolor
+pcolorA str c = do reserved str; equals; c <$> pcolor
   <?> "color attribute"
 
 pcolor :: P Color

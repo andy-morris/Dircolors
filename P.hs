@@ -3,6 +3,7 @@ module P (
     entire,
     lexeme, symbol,
     word, word',
+    reserved, dot, comma, equals, colon,
     pwhite,
   ) where
 
@@ -41,6 +42,15 @@ word str x = lexeme (quoted str) $ do
 
 word' :: Show a => a -> P a
 word' x = let sx = show x in word sx x
+
+reserved :: String -> P ()
+reserved = flip word ()
+
+dot, comma, equals, colon :: P ()
+dot    = symbol "."
+comma  = symbol ","
+equals = symbol "="
+colon  = symbol ":"
 
 quoted :: String -> String
 quoted str = "\"" ++ str ++ "\""

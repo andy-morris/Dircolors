@@ -9,7 +9,7 @@ import Glob
 import Attribute
 import Data.Char
 import Text.Parsec
-import Text.PrettyPrint.Free hiding (dot, char)
+import Text.PrettyPrint.Free hiding (dot, char, colon)
 import Control.Applicative hiding ((<|>), many)
 
 data Rule = Term [String]
@@ -27,13 +27,14 @@ prules :: P [Rule]
 prules = many $ pterm <|> prule
 
 pterm :: P Rule
-pterm = fmap Term . between (word "term" ()) dot $ many1 identifier where
-  identifier = lexeme "term identifier" . many1 $ esc <|> satisfy idChar
-  esc = char '\\' *> anyChar
-  idChar c = not (isSpace c) && c /= '.'
+pterm =
+    fmap Term . between (reserved "term") dot $ many1 (identifier "terminal")
+
+identifier :: String -> P String
+identifier name =
+    lexeme (name++" identifier") . many1 $ esc <|> satisfy idChar
+  where esc = char '\\' *> anyChar
+        idChar c = not (isSpace c) && c /= '.'
 
 prule :: P Rule
-prule = liftA2 Rule (pglobs <* symbol ":") (pattributes <* symbol ".")
-
-dot :: P ()
-dot = symbol "."
+prule = liftA2 Rule (pglobs <* colon) (pattributes <* dot)
