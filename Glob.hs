@@ -53,8 +53,9 @@ pclass n = Branch . map Lit . concat <$>
             return $ maybe [c1] (\c2 -> [c1..c2]) mc2
 
 popt n = Branch <$>
-    between (char '{') (char '}') (pglob' (n ++ ",}") `sepBy1` char ',')
+    between (char '{') (char '}') (part `sepBy1` char ',')
     <?> "Branch"
+  where part = option (Cat []) $ pglob' (n ++ ",}")
 
 plit n = Lit <$> pNot n <?> "normal character"
 
