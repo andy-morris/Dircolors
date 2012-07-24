@@ -31,49 +31,56 @@ STICKY                : bg = blue, fg = white.
 EXEC: fg = green, bold.
 
 # Archives
-.tar .arj .t{[agblx],}z .lz{h,ma}    : fg = red, bold.
-.zip .[zZ] .[dglrx7]z .bz{2,} .tbz2  : fg = red, bold.
-.deb .rpm .[ejrsw]ar .ace .zoo .cpio : fg = red, bold.
-.a                                   : fg = red, bold.
+style archive : fg = red, bold.
+.tar .arj .t{[agblx],}z .lz{h,ma}    : archive.
+.zip .[zZ] .[dglrx7]z .bz{2,} .tbz2  : archive.
+.deb .rpm .[ejrsw]ar .ace .zoo .cpio : archive.
+.a                                   : archive.
 
 # Images and videos
-.jp{e,}g .gif .[pm]ng .bmp .p[bgp]m       : fg = magenta, bold.
-.x[bp]m .tga .tif{f,} .svg{z,} .pcx       : fg = magenta, bold.
-.mov .mp{e,}g .m[2k]v .m4[av] .webm       : fg = magenta, bold.
-.og[mxv] .mp4{v,} .vob .qt .nuv .wmv .asf : fg = magenta, bold.
-.rm{a,vb,} .flc .avi .fl[iv] .[gd]l       : fg = magenta, bold.
-.xcf .xwd .yuv .cgm .emf .axv .anx        : fg = magenta, bold.
+style image : fg = magenta, bold.
+.jp{e,}g .gif .[pm]ng .bmp .p[bgp]m       : image.
+.x[bp]m .tga .tif{f,} .svg{z,} .pcx       : image.
+.mov .mp{e,}g .m[2k]v .m4[av] .webm       : image.
+.og[mxv] .mp4{v,} .vob .qt .nuv .wmv .asf : image.
+.rm{a,vb,} .flc .avi .fl[iv] .[gd]l       : image.
+.xcf .xwd .yuv .cgm .emf .axv .anx        : image.
 
 # Audio
-.aac .au .flac .mid{i,} .mka .mp[3c] .ogg : fg = cyan, bold.
-.ra .wav .axa .oga .spx .xspf             : fg = cyan, bold.
+style audio : fg = cyan, bold.
+.aac .au .flac .mid{i,} .mka .mp[3c] .ogg : audio.
+.ra .wav .axa .oga .spx .xspf             : audio.
 
 ####################
 
 # Build system files
-*CMakeLists.txt .cabal : fg = yellow.
-*Makefile .mk .make    : fg = yellow.
+style build : fg = yellow.
+*CMakeLists.txt .cabal *Makefile .mk .make : build.
 
 # Source files
-.c{pp,xx,++} .h{pp,xx,++} .s : fg = yellow, bold.
-.cs .fs{i,} .java .scala     : fg = yellow, bold.
-.{l,}hs .y .x .hsc           : fg = yellow, bold.
-.{s,}ml .mli                 : fg = yellow, bold.
-.{l,}agda .v                 : fg = yellow, bold.
-.py .rb .php .pl             : fg = yellow, bold.
-.vim                         : fg = yellow, bold.
-.js .coffee                  : fg = yellow, bold.
-.go                          : fg = yellow, bold.
-.lisp .scm                   : fg = yellow, bold.
+style source : fg = yellow, bold.
+.c{pp,xx,++} .h{pp,xx,++} .s : source.
+.cs .fs{i,} .java .scala     : source.
+.{l,}hs .y .x .hsc           : source.
+.{s,}ml .mli                 : source.
+.{l,}agda .v                 : source.
+.py .rb .php .pl             : source.
+.vim                         : source.
+.js .coffee                  : source.
+.go                          : source.
+.lisp .scm                   : source.
 
 # Meta
-*{README,LICENSE,AUTHORS} : fg = yellow, underline.
+style meta : fg = yellow, underline.
+*{README,LICENSE,AUTHORS} : meta.
 
 # Documents
-.txt .tex .html .xhtml .xml     : underline.
-.md .mkd .markdown .pandoc .pdc : underline.
+style document : underline.
+.txt .tex .html .xhtml .xml     : document.
+.md .mkd .markdown .pandoc .pdc : document.
 
 # Temp files
-.o .hi .agdai .pyc                 : fg = black, bold.
-.aux .bbl .blg .brf .dvi .fls .idx : fg = black, bold.
-.ilg .ind .lof .log .out .toc      : fg = black, bold.
+style temp : fg = black, bold.
+.o .hi .agdai .pyc                 : temp.
+.aux .bbl .blg .brf .dvi .fls .idx : temp.
+.ilg .ind .lof .log .out .toc      : temp.
