@@ -1,4 +1,8 @@
-module Rule where
+module Rule (
+    Rule(..), prules, prule,
+    module Glob,
+    module Attribute,
+  ) where
 
 import P
 import Glob
