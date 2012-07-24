@@ -27,7 +27,9 @@ instance Pretty Attribute where
     pretty x      = text . map toLower $ show x
 
 pattributes :: P [Attribute]
-pattributes = pattribute `sepBy1` symbol "," <?> "attribute list"
+pattributes =
+      (pattribute `sepBy1` symbol "," <?> "attribute list")
+  <|> (word "reset" [] <?> "\"reset\"")
 
 pattribute :: P Attribute
 pattribute = choice
