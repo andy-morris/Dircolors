@@ -1,0 +1,8 @@
+
+# see also glob-syntax.txt and attribute-syntax.txt
+#
+# comments are signified by "#"
+
+rule ::= globs ":" attributes "."
+
+globs ::= glob globs | glob
