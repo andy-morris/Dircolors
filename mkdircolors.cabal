@@ -1,4 +1,5 @@
 name:          Dircolors
+synopsis:      A preprocessor for slightly more expressive .dircolors
 version:       0.1.0.0
 license:       PublicDomain
 license-file:  LICENSE
@@ -8,8 +9,12 @@ category:      System
 build-type:    Simple
 cabal-version: >= 1.10
 
+extra-source-files:
+  attribute-syntax.txt, glob-syntax.txt, syntax.txt
+
 executable mkdircolors
   main-is: Main.hs
+  other-modules: Attribute, Glob, P, Rule
   build-depends:
     base == 4.5.*,
     syb == 0.3.*,
