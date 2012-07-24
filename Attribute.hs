@@ -1,7 +1,12 @@
-module Attribute where
+module Attribute (
+    Attribute(..), Color(..),
+    pattributes, pattribute,
+    toConf,
+  ) where
 
 import P
 import Data.Char
+import Data.List
 import Text.Parsec
 import Control.Applicative hiding ((<|>))
 import Text.PrettyPrint.Free
@@ -45,3 +50,16 @@ pcolorA str c = do
 pcolor :: P Color
 pcolor = choice (map word' [minBound .. maxBound])
   <?> "color name"
+
+toConf :: [Attribute] -> String
+toConf [] = "00"
+toConf xs = intercalate ";" $ map toConf' xs where
+  toConf' Bold      = "01"
+  toConf' Underline = "04"
+  toConf' Blink     = "05"
+  toConf' Reverse   = "07"
+  toConf' Conceal   = "08"
+  toConf' (FG x)    = "3" ++ colToConf x
+  toConf' (BG x)    = "4" ++ colToConf x
+
+  colToConf = show . fromEnum
