@@ -3,6 +3,7 @@ module P (
     entire,
     lexeme, symbol,
     word, word',
+    pwhite,
   ) where
 
 import Data.Char

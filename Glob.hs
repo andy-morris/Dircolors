@@ -1,21 +1,15 @@
-module Glob (Glob(..), glob, pglob, generate) where
+module Glob (Glob(..), pglobs, pglob, generate) where
 
 import P
 
 import Data.String
 import Text.Parsec
 import Text.PrettyPrint.Free hiding (char)
-import Control.Applicative
+import Control.Applicative hiding (many)
 import Data.Generics
 
 data Glob = Lit Char | Branch [Glob] | Cat [Glob]
   deriving (Eq, Show, Typeable, Data)
-
-glob :: String -> Either String Glob
-glob str =
-    case parse pglob "<glob>" str of
-         Left err -> Left $ show err
-         Right x  -> Right $ cleanup x
 
 cleanup :: Glob -> Glob
 cleanup = everywhere $ mkT cleanup' where
@@ -32,18 +26,21 @@ cleanup = everywhere $ mkT cleanup' where
   cats x               = [x]
 
 instance Pretty Glob where
-  pretty (Lit c) = fromString [c]
-  pretty (Branch gs)
-    | all single gs = brackets . cat $ map pretty gs
-    | otherwise     = braces . cat . punctuate "," $ map pretty gs
-  pretty (Cat xs) = cat $ map pretty xs
+  pretty = p' . cleanup where
+    p' (Lit c) = fromString [c]
+    p' (Branch gs)
+      | all single gs = brackets . cat $ map p' gs
+      | otherwise     = braces . cat . punctuate "," $ map p' gs
+    p' (Cat xs) = cat $ map p' xs
 
-single :: Glob -> Bool
-single (Lit _) = True
-single _       = False
+    single (Lit _) = True
+    single _       = False
+
+pglobs :: P [Glob]
+pglobs = many1 pglob
 
 pglob :: P Glob
-pglob = pglob' [] <* eof
+pglob = lexeme "glob" $ pglob' []
 
 pglob', pclass, popt, plit :: [Char] -> P Glob
 pglob' n = fmap Cat . many1 $ choice [pclass n, popt n, plit n]
@@ -65,10 +62,7 @@ pesc :: P Char
 pesc = char '\\' *> anyChar <?> "backslash escape"
 
 pNot :: [Char] -> P Char
-pNot n = choice [pesc, anyChar `butNot` (n ++ "#:[{ \\")] where
-  p `butNot` cs = try $ do
-    x <- p
-    if x `elem` cs then unexpected [x] else return x
+pNot n = choice [pesc, noneOf $ n ++ "#:[{ \\"]
 
 
 generate :: Glob -> [FilePath]
