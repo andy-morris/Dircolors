@@ -2,39 +2,12 @@ module Glob (Glob(..), pglobs, pglob, generate) where
 
 import P
 
-import Data.String
 import Text.Parsec
-import Text.PrettyPrint.Free hiding (char)
 import Control.Applicative hiding (many)
 import Data.Generics
 
 data Glob = Lit Char | Branch [Glob] | Cat [Glob]
   deriving (Eq, Show, Typeable, Data)
-
-cleanup :: Glob -> Glob
-cleanup = everywhere $ mkT cleanup' where
-  cleanup' (Branch [x]) = x
-  cleanup' (Branch xs)  = Branch $ concatMap branches xs
-  cleanup' (Cat [x])    = x
-  cleanup' (Cat xs)     = Cat $ concatMap cats xs
-  cleanup' x            = x
-
-  branches (Branch xs) = xs
-  branches x           = [x]
-
-  cats (Cat xs)        = xs
-  cats x               = [x]
-
-instance Pretty Glob where
-  pretty = p' . cleanup where
-    p' (Lit c) = fromString [c]
-    p' (Branch gs)
-      | all single gs = brackets . cat $ map p' gs
-      | otherwise     = braces . cat . punctuate "," $ map p' gs
-    p' (Cat xs) = cat $ map p' xs
-
-    single (Lit _) = True
-    single _       = False
 
 pglobs :: P [Glob]
 pglobs = many1 pglob

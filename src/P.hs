@@ -19,7 +19,7 @@ entire = (<* eof)
 pcomment :: P ()
 pcomment = void inner <?> "comment" where
   inner = do
-    char '#'
+    _ <- char '#'
     skipMany $ noneOf "\n"
     void (char '\n') <|> eof
 

@@ -4,10 +4,8 @@ module Attribute (
   ) where
 
 import P
-import Data.Char
 import Text.Parsec
 import Control.Applicative hiding ((<|>))
-import Text.PrettyPrint.Free hiding (equals, comma)
 
 data Attributes = Inline [Attribute] | Ref String
   deriving (Show, Eq)
@@ -18,18 +16,6 @@ data Attribute = Bold | Underline | Blink | Reverse | Conceal
 
 data Color = Black | Red | Green | Yellow | Blue | Magenta | Cyan | White
   deriving (Eq, Show, Enum, Bounded)
-
-instance Pretty Attributes where
-    pretty (Inline attrs) = hsep . punctuate "," $ map pretty attrs
-    pretty (Ref sty)      = text sty
-
-instance Pretty Attribute where
-    pretty (FG x) = hsep ["fg", "=", pretty x]
-    pretty (BG x) = hsep ["bg", "=", pretty x]
-    pretty x      = text . map toLower $ show x
-
-instance Pretty Color where
-    pretty = text . map toLower . show
 
 pattributes :: P Attributes
 pattributes =

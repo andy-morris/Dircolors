@@ -3,7 +3,6 @@ import Data.List
 import qualified Data.Map as Map; import Data.Map (Map)
 import Data.Typeable
 import Text.Parsec (parse, ParseError)
-import Text.PrettyPrint.Free
 import Control.Arrow
 import Control.Monad.Error
 import Control.Monad.State
@@ -18,13 +17,12 @@ data Err
     = StyleNotFound String
     | ParseError ParseError
     | Other (Maybe String)
-  deriving (Show)
 
-instance Pretty Err where
-    pretty (StyleNotFound name) = hsep ["style name", text name, "not found"]
-    pretty (ParseError pe)      = pretty $ show pe
-    pretty (Other Nothing)      = "unknown error :("
-    pretty (Other (Just s))     = pretty s
+instance Show Err where
+    show (StyleNotFound name) = concat ["style name ", name, " not found"]
+    show (ParseError pe)      = show pe
+    show (Other Nothing)      = "unknown error :("
+    show (Other (Just s))     = s
 
 instance Error Err where
     strMsg = Other . Just
