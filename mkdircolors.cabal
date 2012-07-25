@@ -21,7 +21,8 @@ executable mkdircolors
     containers >= 0.3 && < 0.5,
     syb == 0.3.*,
     parsec == 3.1.*,
-    wl-pprint-extras == 3.*
+    wl-pprint-extras == 3.*,
+    ReadArgs == 1.*
   default-language: Haskell2010
   default-extensions:
-    DeriveDataTypeable, OverloadedStrings
+    DeriveDataTypeable, OverloadedStrings, ScopedTypeVariables

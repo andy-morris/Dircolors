@@ -1,33 +1,18 @@
 import Rule
 import Data.List
 import qualified Data.Map as Map; import Data.Map (Map)
+import Data.Typeable
 import Text.Parsec (parse, ParseError)
 import Text.PrettyPrint.Free
+import Control.Arrow
 import Control.Monad.Error
 import Control.Monad.State
+import ReadArgs (readArgs)
+import System.IO
+import System.Exit
 
-main :: IO ()
-main = interact main'
-
-main' :: String -> String
-main' =
-    either show (unlines . concat) .
-    flip evalState Map.empty .
-    runErrorT .
-    (mapM output <=< parseRules)
-
-parseRules :: String -> M [Rule]
-parseRules str =
-    case parse prules "<input>" str of
-         Left e  -> throwError $ ParseError e
-         Right x -> return x
-
-output :: Rule -> M [String]
-output (Term ts) = return $ map ("TERM " ++) ts
-output (Rule gs attrs) = do
-    conf <- toConf attrs
-    return [ft ++ " " ++ conf | g <- gs, ft <- generate g]
-output (Style name attrs) = modify (Map.insert name attrs) >> return []
+type M = ErrorT Err (State StyleMap)
+type StyleMap = Map String Attributes
 
 data Err
     = StyleNotFound String
@@ -45,8 +30,38 @@ instance Error Err where
     strMsg = Other . Just
     noMsg  = Other Nothing
 
-type StyleMap = Map String Attributes
-type M = ErrorT Err (State StyleMap)
+newtype Filename = F {unF :: FilePath} deriving Typeable
+instance Show Filename where show (F x) = x
+instance Read Filename where readsPrec _ str = [(F str, "")]
+
+
+main :: IO ()
+main = do
+    (inp :: Maybe Filename, outp :: Maybe Filename) <- readArgs
+    input <- maybe getContents (readFile . unF) inp
+    case main' input of
+         Left e  -> hPrint stderr e >> exitFailure
+         Right x -> maybe putStr (writeFile . unF) outp x
+
+main' :: String -> Either String String
+main' =
+    (show +++ unlines . concat) .
+    flip evalState Map.empty .
+    runErrorT .
+    (mapM output <=< parseRules)
+
+parseRules :: String -> M [Rule]
+parseRules str =
+    case parse prules "<input>" str of
+         Left e  -> throwError $ ParseError e
+         Right x -> return x
+
+output :: Rule -> M [String]
+output (Term ts) = return $ map ("TERM " ++) ts
+output (Rule gs attrs) = do
+    conf <- toConf attrs
+    return [ft ++ " " ++ conf | g <- gs, ft <- generate g]
+output (Style name attrs) = modify (Map.insert name attrs) >> return []
 
 toConf :: Attributes -> M String
 toConf (Ref sty) = do
